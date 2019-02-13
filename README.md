@@ -1,7 +1,6 @@
 ## 命令行
 
 - 安装依赖：`npm install`
-- 安装插件：`npm run dll`
 - 本地开发：`npm run dev`
 - 发布生产：`npm run prod`
 
@@ -28,5 +27,3 @@
   |---- server: node server 代码
 ---
 
-```# react-demo
-# react-demo
