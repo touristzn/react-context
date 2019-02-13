@@ -1,0 +1,23 @@
+@import '../../static/less/mixin.less';
+@import '../../static/less/variable.less';
+
+.list-group {
+  li {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: solid 1px @border-bottom;
+    .d-flex;
+    align-items: center;
+    .fw-bold {
+      font-weight: bold;
+    }
+    .btn {
+      height: 18px;
+      padding: 15px 10px;
+      line-height: 0;
+      color: @color-text;
+      border: solid 1px @color-text-d;
+      border-radius: 10px;
+    }
+  }
+}
