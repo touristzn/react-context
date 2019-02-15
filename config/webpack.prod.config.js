@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const CleanWebpack = require('clean-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const baseWebpackConfig = require('./webpack.base.config')
@@ -43,7 +43,9 @@ module.exports = merge(baseWebpackConfig, {
     }),
 
     //清除打包目录
-    new CleanWebpack(path.resolve(__dirname, 'dist')),
+    new CleanWebpackPlugin(['dist'],{
+       root: path.resolve(__dirname, '../'),
+    }),
 
     new webpack.NoEmitOnErrorsPlugin(),
   ]

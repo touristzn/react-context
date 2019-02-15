@@ -14,7 +14,7 @@ module.exports = {
   entry: getEntry(),
 
   output: {
-    path: path.resolve(__dirname,'dist'),
+    path: path.resolve(__dirname,'../dist'),
     publicPath: '/' //如CSS中图片或字体图标引用时使用的是相对路径，则需要加上此属性，否则输出的路径前面会加一个css的目录
   },
 
