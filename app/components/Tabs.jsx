@@ -1,6 +1,7 @@
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 
-export class Tabs extends React.Component {
+export class Tabs extends Component {
   render() {
     const { children, activeIndex } = this.props;
     return (

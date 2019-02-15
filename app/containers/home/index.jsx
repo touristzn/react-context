@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Header from '../../components/header';
 import PriceList from '../../components/PriceList';
 import { Tabs, Tab } from '../../components/Tabs';
@@ -29,7 +30,7 @@ const items = [
   },
 ];
 
-export default class extends React.Component {
+export default class extends Component {
   constructor(props) {
     super(props)
     this.state = {}

@@ -4,39 +4,14 @@ const CleanWebpack = require('clean-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const baseWebpackConfig = require('./webpack.base.config')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const path = require('path')
 
 module.exports = merge(baseWebpackConfig, {
+  mode: 'production',
   output: {
     filename: 'js/[name].[chunkhash:5].js',
     chunkFilename: 'js/[name].[chunkhash:5].js'
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            'css-loader',
-            {//postcss需要放在less前
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                sourceMap: true,
-                plugins: [
-                  require('postcss-cssnext')()
-                ]
-              }
-            },
-            'less-loader'
-          ]
-        })
-      }
-    ]
   },
 
   plugins: [
@@ -71,11 +46,5 @@ module.exports = merge(baseWebpackConfig, {
     new CleanWebpack(path.resolve(__dirname, 'dist')),
 
     new webpack.NoEmitOnErrorsPlugin(),
-
-    //将css文件打包成独立文件
-    new ExtractTextPlugin({
-      filename: 'css/[name].[contentHash:5].css',
-      allChunks: false
-    })
   ]
 })

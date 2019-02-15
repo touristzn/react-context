@@ -1,4 +1,6 @@
-export default class extends React.Component {
+import React, { Component } from 'react'
+
+export default class extends Component {
   render() {
     <div className="loading">
       <img src="../../static/images/loading.svg" />

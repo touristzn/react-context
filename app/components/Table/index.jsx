@@ -1,7 +1,8 @@
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import './style.less';
 
-export class Table extends React.Component {
+export class Table extends Component {
   render() {
     const { children, data, width } = this.props;
     let totalW = 0;

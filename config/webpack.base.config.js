@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const es3ifyPlugin = require('es3ify-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const path = require('path')
 const glob = require('glob')
@@ -13,7 +14,7 @@ module.exports = {
   entry: getEntry(),
 
   output: {
-    path: resolve('dist'),
+    path: path.resolve(__dirname,'dist'),
     publicPath: '/' //如CSS中图片或字体图标引用时使用的是相对路径，则需要加上此属性，否则输出的路径前面会加一个css的目录
   },
 
@@ -21,31 +22,7 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              "presets": [
-                "react",
-                [
-                  "env",
-                  {
-                    "targets": {
-                      "browsers": [
-                        'last 2 version',
-                        'ie >= 8'
-                      ]
-                    }
-                  }
-                ], "stage-2"
-              ],
-              "plugins": isProduction ? [] : [
-                ["react-hot-loader/babel"],
-                ["transform-runtime"]
-              ]
-            }
-          }
-        ],
+        loader: 'babel-loader',
         exclude: '/node_modules/',
         include: [resolve('app')]
       },
@@ -61,6 +38,25 @@ module.exports = {
             }
           }
         ]
+      },
+
+      {
+        test: /\.less$/,
+        use: [
+          isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+          {//postcss需要放在less前
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              sourceMap: true,
+              plugins: [
+                require('postcss-cssnext')()
+              ]
+            }
+          },
+          'less-loader',
+        ],
       },
 
       {
@@ -85,39 +81,36 @@ module.exports = {
   plugins: [
     new es3ifyPlugin(),
 
-    new webpack.ProvidePlugin({
-      React: 'react',
-      ReactDOM: 'react-dom',
-      axios: 'axios'
-    }),
-
-    //提取第三方库
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function (module) {
-        return (
-          module.resource &&
-          /\.(js|jsx|ttf|woff)$/.test(module.resource) &&
-          module.resource.indexOf(
-            path.join(__dirname, '../node_modules')
-          ) === 0
-        )
+    new webpack.optimize.SplitChunksPlugin({
+      cacheGroups: {
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+        //打包重复出现的代码
+        vendor: {
+          chunks: 'initial',
+          minChunks: 2,
+          maxInitialRequests: 5, // The default limit is too small to showcase the effect
+          minSize: 0, // This is example is too small to create commons chunks
+          name: 'vendor'
+        },
+        //打包第三方类库
+        commons: {
+          name: "commons",
+          chunks: "initial",
+          minChunks: Infinity
+        }
       }
     }),
 
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity
+    new webpack.optimize.RuntimeChunkPlugin({
+        name: "manifest"
     }),
 
-    //提取公共代码和业务代码
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['common'],
-      async: 'vendor-async',
-      children: true,
-      minChunks: 3
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contentHash:5].css',
     }),
   ]
     .concat(htmlPlugins)

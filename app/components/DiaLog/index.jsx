@@ -1,7 +1,8 @@
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import './style.less';
 
-class DiaLog extends React.Component {
+class DiaLog extends Component {
   constructor(props) {
     super(props)
     this.state = {

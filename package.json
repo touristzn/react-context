@@ -2,31 +2,33 @@
   "name": "react-router-demo",
   "version": "1.0.0",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node server/index.js",
-    "prod": "cross-env NODE_ENV=production && webpack --config config/webpack.prod.config.js -p --colors",
-    "test": "jest --colors --coverage"
+    "dev": "node server/index.js",
+    "prod": "webpack --config config/webpack.prod.config.js -p --colors",
+    "test": "jest --colors"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.5",
     "better-scroll": "^1.8.0",
     "clean-webpack-plugin": "^0.1.17",
     "compression-webpack-plugin": "^1.1.11",
-    "cross-env": "^5.1.3",
     "css-loader": "^0.28.8",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.9.1",
+    "enzyme-to-json": "^3.3.5",
     "es3ify-webpack-plugin": "0.0.1",
     "es6-promise": "^4.2.4",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
     "img-loader": "^2.0.0",
+    "install": "^0.12.2",
     "jest": "^24.1.0",
+    "jest-cli": "^24.1.0",
     "jsonp": "^0.2.1",
     "jsx-loader": "^0.13.2",
     "koa": "^2.5.0",
@@ -37,19 +39,46 @@
     "koa-webpack-middleware": "^1.0.7",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
+    "mini-css-extract-plugin": "^0.5.0",
+    "npm": "^6.8.0",
     "postcss": "^6.0.16",
     "postcss-cssnext": "^3.1.0",
     "postcss-loader": "^2.0.10",
     "react-hot-loader": "^3.1.3",
+    "react-test-renderer": "^16.8.1",
     "style-loader": "^0.19.1",
     "superagent": "^4.1.0",
+    "uglifyjs-webpack-plugin": "^2.1.1",
     "url-loader": "^0.6.2",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3",
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/tests/jest.setup.js"
+    ],
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(enzyme|jest)/)"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    }
   }
 }
