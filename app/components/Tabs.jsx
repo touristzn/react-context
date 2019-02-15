@@ -2,15 +2,37 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 
 export class Tabs extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      activeIndex: props.activeIndex
+    }
+  }
+
+  tabChange = (event, index) => {
+    event.preventDefault()
+    this.setState({
+      activeIndex: index
+    })
+    this.props.onTabChange(index)
+  }
+
   render() {
-    const { children, activeIndex } = this.props;
+    const { children } = this.props;
+    const { activeIndex } = this.state;
     return (
       <ul className="nav-tabs">
         {React.Children.map(children, (child, index) => {
           const activeClassName = (activeIndex === index) ? 'tab-link active' : 'tab-link';
           return (
             <li className="tabs-item">
-              <a href="#" className={activeClassName}>{child}</a>
+              <a
+                onClick={(event) => { this.tabChange(event, index)}}
+                className={activeClassName}
+                role="button"
+              >
+                {child}
+              </a>
             </li>
           )
         })}
