@@ -2,34 +2,23 @@
  * 配置不同环境的打包发布参数
  */
 
-const APP_ENV = process.env.APP_ENV || 'local';
+const NODE_ENV = process.env.NODE_ENV || 'dev';
 const configs = {};
 
 // common
-let common = {
-  env: APP_ENV,
-  port: '5001'
+const common = {
+  env: NODE_ENV,
 }
 
-// local
-configs['local'] = Object.assign({}, common, {
-  port: '8000'
-})
-
-// it
-configs['it'] = Object.assign({}, common, {
-  // port: '8000'
-})
-
-// it
-configs['uat'] = Object.assign({}, common, {
-  // port: '8000'
+// dev
+configs['development'] = Object.assign({}, common, {
+  port: '3001'
 })
 
 // prod
-configs['prod'] = Object.assign({}, common, {
-  // port: '8000'
+configs['production'] = Object.assign({}, common, {
+  port: '3002'
 })
 
 // module.exports
-module.exports = configs[APP_ENV]
+module.exports = configs[NODE_ENV]

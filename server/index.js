@@ -2,8 +2,6 @@ const path = require('path');
 
 const koa = require('koa');
 const onerror = require('koa-onerror');
-const locale = require('koa-locale'); //  检测语言环境
-const i18n = require('koa-i18n-s');
 const bodyParser = require('koa-body');
 
 const config = require('../config/server/env.conf');
@@ -14,9 +12,6 @@ const NODE_ENV = process.env.NODE_ENV;
 const app = new koa();
 
 onerror(app);
-
-// the locale key name defaults to `locale`
-locale(app, 'language');
 
 if (NODE_ENV !== 'production') {
   const webpack = require('webpack');
@@ -45,19 +40,6 @@ app.use(bodyParser({
   multipart: true,
   jsonLimit: '1mb',
   formLimit: '500kb'
-}));
-
-app.use(i18n(app, {
-  directory: path.join(__dirname, './i18n'),
-  extension: '.json',
-  locales: ['zh-CN', 'en'],
-  defualtLocale: 'zh-CN',
-  modes: ['url', 'header'],
-  mappings: {
-    'zh': 'zh-CN',
-    'en-US': 'en'
-  },
-  rewrite: true
 }));
 
 app.use(async (ctx, next) => {

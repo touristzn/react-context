@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 import Header from '../../components/header';
 import PriceList from '../../components/PriceList';
 import { Tabs, Tab } from '../../components/Tabs';
 import { Table, TableColumn } from '../../components/Table';
-import DiaLog from '../../components/DiaLog'
+import DiaLog from '../../components/DiaLog';
+import withLocale from '../../components/withLocale';
 
 const items = [
   {
@@ -30,7 +32,7 @@ const items = [
   },
 ];
 
-export default class extends Component {
+class App extends Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -93,13 +95,15 @@ export default class extends Component {
             visible={false}
             title="日志"
           >
-            111
+            <FormattedMessage id="ChinaAppDownload.download"/>
           </DiaLog>
         </section>
       </article>
     )
   }
 }
+
+export default withLocale(App);
 
 //*********context传值 */
 // router页面中

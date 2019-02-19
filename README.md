@@ -27,3 +27,11 @@
   |---- server: node server 代码
 ---
 
+##备注
+需要国际化语言的，只需引入components中的withLocale组件，用它包裹住你写的组件，例：export default withLocale(ChinaAppDownload)
+在自己的组件中引入：
+import { FormattedMessage } from 'react-intl';
+<FormattedMessage id="ChinaAppDownload.download"/>
+
+获取全局的语言变量：window.language
+
