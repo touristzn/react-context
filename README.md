@@ -32,15 +32,21 @@
 再安装相关依赖
 npm i babel-eslint eslint eslint-loader eslint-config-airbnb eslint-import-resolver-webpack eslint-config-prettier eslint-plugin-jsx-a11y eslint-plugin-import eslint-plugin-react eslint-plugin-react-intl eslint-plugin-jest -D
 
-## 备注
-需要国际化语言的，只需引入components中的withLocale组件，用它包裹住你写的组件，例：export default withLocale(ChinaAppDownload)
+## 国际化语言
+引入components中的withLocale组件，用它包裹住你写的组件
+例：export default withLocale(ChinaAppDownload)
+
 在自己的组件中引入：
 import { FormattedMessage } from 'react-intl';
 <FormattedMessage id="ChinaAppDownload.download"/>
 
 获取全局的语言变量：window.language
 
-页面中引用相对路径的图片：
+## react-ionicons图标库
+项目中已安装
+https://zamarrowski.github.io/react-ionicons/
+
+## jsx中图片的引用
 <img src={require('相对路径')} alt=""/>
 
 ## oss部署
