@@ -24,7 +24,7 @@ const PriceList = ({  items, onModifyItem, onDeleteItem }) => {
   )
 };
 
-/*类型检查*/
+/* 类型检查 */
 PriceList.propTypes = {
   items: PropTypes.array.isRequired,
   onModifyItem: PropTypes.func.isRequired,

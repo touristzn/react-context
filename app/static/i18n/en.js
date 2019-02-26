@@ -1,5 +1,5 @@
-const en_US = {
+const enUS = {
   "ChinaAppDownload.download": "Download",
 }
 
-export default en_US;
+export default enUS;

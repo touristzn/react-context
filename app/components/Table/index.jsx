@@ -2,22 +2,22 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import './style.less';
 
-export class Table extends Component {
-  render() {
-    const { children, data, width } = this.props;
-    let totalW = 0;
+export const Table = (props) => {
+  const { children, data, width } = props;
+  let totalW = 0;
 
-    if(children.length !== undefined) {
-      children.forEach((val, i) => {
-        if (val.props.width) {
-          totalW += Number(val.props.width);
-        }
-      });
-    } else {
-      totalW = '100%';
-    }
-    return (
-      <div className="table-list">
+  if(children.length !== undefined) {
+    children.forEach((val, i) => {
+      if (val.props.width) {
+        totalW += Number(val.props.width);
+      }
+    });
+  } else {
+    totalW = '100%';
+  }
+
+  return (
+    <div className="table-list">
         <table width={width ? width : totalW} cellPadding="0" cellSpacing="0" border="0">
           <colgroup>
             {React.Children.map(children, (child, index) => {
@@ -55,8 +55,7 @@ export class Table extends Component {
           </tbody>
         </table>
       </div>
-    )
-  }
+  )
 }
 
 Table.propTypes = {

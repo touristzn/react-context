@@ -1,25 +1,43 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const es3ifyPlugin = require('es3ify-webpack-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const path = require('path')
 const glob = require('glob')
 
-const isProduction = process.env.NODE_ENV === 'production'
-
-let htmlPlugins = [];
+const isProd = process.env.NODE_ENV === 'production'
+const publicPath = isProd ? '/h5/' : '/'
 
 module.exports = {
   entry: getEntry(),
 
   output: {
-    path: path.resolve(__dirname,'../dist'),
-    publicPath: '/' //如CSS中图片或字体图标引用时使用的是相对路径，则需要加上此属性，否则输出的路径前面会加一个css的目录
+    path: path.resolve(`dist${  publicPath}`),
+    publicPath,
   },
 
   module: {
     rules: [
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              attrs: ['img:src'],
+              minimize: true,
+              removeComments: false,
+              collapseWhitespace: false,
+              removeAttributeQuotes: false,
+              interpolate: 'require',
+            },
+          },
+        ]
+      },
+      
       {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
@@ -34,7 +52,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
               name: 'images/[name]-[hash:5].[ext]',
-              limit: 1000
+              limit: 10000,
             }
           }
         ]
@@ -43,9 +61,9 @@ module.exports = {
       {
         test: /\.less$/,
         use: [
-          isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+          isProd ? MiniCssExtractPlugin.loader : 'style-loader',
           'css-loader',
-          {//postcss需要放在less前
+          {// postcss需要放在less前
             loader: 'postcss-loader',
             options: {
               ident: 'postcss',
@@ -74,71 +92,97 @@ module.exports = {
     ]
   },
 
+  performance: {
+    hints: "warning",
+    maxEntrypointSize: 5000000,
+    maxAssetSize: 3000000
+  },
+
   resolve: {
     extensions: ['.js', '.jsx', '.less']
+  },
+
+  optimization: {
+    namedChunks: true,
+    runtimeChunk: { name: 'manifest' },
+    minimizer: !isProd
+    ? []
+    : [
+        new UglifyJsPlugin({
+          cache: true,
+          parallel: true,
+          sourceMap: !isProd
+        }),
+        new OptimizeCSSAssetsPlugin()
+      ],
+    splitChunks: {
+      chunks: 'async',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: false,
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          chunks: 'initial',
+          priority: -10,
+          reuseExistingChunk: false,
+          test: /node_modules\/(.*)\.js/
+        },
+        styles: {
+          name: 'styles',
+          test: /\.(less|css)$/,
+          chunks: 'all',
+          minChunks: 1,
+          reuseExistingChunk: true,
+          enforce: true
+        }
+      }
+    },
   },
 
   plugins: [
     new es3ifyPlugin(),
 
-    new webpack.optimize.SplitChunksPlugin({
-      cacheGroups: {
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
-        //打包重复出现的代码
-        vendor: {
-          chunks: 'initial',
-          minChunks: 2,
-          maxInitialRequests: 5, // The default limit is too small to showcase the effect
-          minSize: 0, // This is example is too small to create commons chunks
-          name: 'vendor'
-        },
-        //打包第三方类库
-        commons: {
-          name: "commons",
-          chunks: "initial",
-          minChunks: Infinity
-        }
-      }
-    }),
-
-    new webpack.optimize.RuntimeChunkPlugin({
-        name: "manifest"
-    }),
-
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contentHash:5].css',
     }),
   ]
-    .concat(htmlPlugins)
 }
 
-//获取entry文件夹下面的所有页面
+/**
+ * 获取entry文件夹下的页面路径
+ */
 function getEntry() {
   let entry = {};
-  //读取页面目录，并进行路径裁剪
-  glob.sync('./app/entry/*.jsx')
-    .forEach(ele => {
-      let name = ele.split('/').pop().replace(/\.jsx?/, '');
-      entry[name] = [ele];
-      //生成页面
-      htmlPlugins.push(
-        new HtmlWebpackPlugin({
-          filename: name + '.html',
-          template: './app/template/index.html',
-          title: 'webpack+react',
-          description: 'webpack+react',
-          hash: true,
-          inject: true,
-          chunksSortMode: 'dependency'
-        })
-      )
-    });
+  glob.sync('./app/entry/*.jsx').forEach(ele => {
+    let name = ele.split('/').pop().replace(/\.jsx?/, '');
+    entry[name] = [ele];
+  })
   return entry;
 }
+
+/**
+ * 配置页面
+ */
+const entryObj = getEntry();
+Object.keys(entryObj).forEach(function html(name){
+  module.exports.plugins.push(
+    new HtmlWebpackPlugin({
+      filename: `${name}.html`,
+      template: `./app/template/${name}.ejs`,
+      // favicon: './app/static/images/logo.png',
+      minify: {
+        collapseWhitespace:true,
+      },
+      hash: true,
+      inject: true,
+      chunks: [name, 'vendor', 'manifest', 'styles'],
+      chunksSortMode: 'none'
+    })
+  )
+})
 
 /**
  * 获取绝对路径

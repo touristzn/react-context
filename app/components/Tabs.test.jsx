@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { shallow } from 'enzyme';
-import { Tabs, Tab } from './Tabs.jsx';
+import { Tabs, Tab } from './Tabs';
 
 const props = {
   activeIndex: 0,
@@ -24,8 +24,8 @@ describe('test Tabs and Tab Component', () => {
     expect(wrapper).toMatchSnapshot();
   })
   it('should render two Tab component, first one should be active', () => {
-    expect(wrapper.find(Tab).length).toEqual(2)
-    expect(wrapper.find('.tab-link').length).toEqual(2)
+    expect(wrapper.find(Tab)).toHaveLength(2)
+    expect(wrapper.find('.tab-link')).toHaveLength(2)
     expect(wrapper.state().activeIndex).toEqual(0)
     expect(wrapper.find('.tab-link').first().hasClass('active')).toEqual(true)
   })

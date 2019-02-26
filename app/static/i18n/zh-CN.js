@@ -1,5 +1,5 @@
-const zh_CN = {
+const zhCN = {
   "ChinaAppDownload.download": "download",
 }
 
-export default zh_CN;
+export default zhCN;

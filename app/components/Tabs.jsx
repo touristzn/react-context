@@ -29,7 +29,6 @@ export class Tabs extends Component {
               <a
                 onClick={(event) => { this.tabChange(event, index)}}
                 className={activeClassName}
-                role="button"
               >
                 {child}
               </a>

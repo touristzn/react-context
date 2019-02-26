@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import Header from '../../components/header';
 import PriceList from '../../components/PriceList';
 import { Tabs, Tab } from '../../components/Tabs';
 import { Table, TableColumn } from '../../components/Table';
@@ -39,24 +38,25 @@ class App extends Component {
   }
 
   show() {
-    this.refs.d1.onOpen();
+    this.dom1.onOpen();
   }
+
   a() {
     console.log('111');
   }
+
   b() {
     console.log('2222');
   }
 
   check() {
-    this.refs.d2.onOpen();
+    this.dom2.onOpen();
   }
 
   render() {
     const { visible, isShow } = this.state;
     return (
       <article>
-        <Header />
         <section className="main page-home">
           <PriceList
             items={items}
@@ -79,8 +79,8 @@ class App extends Component {
           </Table>
         
           <DiaLog
-            ref="d1"
-            visible={true}
+            ref={(ele) => {this.dom1 = ele;}}
+            visible
             title="对话框"
             buttons={[
               {text: '取消', func: this.a},
@@ -91,7 +91,7 @@ class App extends Component {
           </DiaLog>
 
           <DiaLog
-            ref="d2"
+            ref={(ele) => {this.dom2 = ele;}}
             visible={false}
             title="日志"
           >
@@ -105,7 +105,7 @@ class App extends Component {
 
 export default withLocale(App);
 
-//*********context传值 */
+//* ********context传值 */
 // router页面中
 // import AppContext from '../../static/util/AppContext';
 
@@ -143,6 +143,6 @@ export default withLocale(App);
 //   )
 // }
 
-//或使用components/withContext.jsx高阶组件
-//只需要包裹在组件名外面即可
-//如：withContext(Home)
+// 或使用components/withContext.jsx高阶组件
+// 只需要包裹在组件名外面即可
+// 如：withContext(Home)

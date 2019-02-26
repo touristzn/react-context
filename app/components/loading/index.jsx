@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-export default class extends Component {
-  render() {
+const Loading = () => {
+  return (
     <div className="loading">
-      <img src="../../static/images/loading.svg" />
+      <img src="../../static/images/loading.svg" alt="" />
       <p>正在载入...</p>
     </div>
-  }
+  )
 }

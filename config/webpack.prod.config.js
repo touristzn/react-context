@@ -2,10 +2,8 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const baseWebpackConfig = require('./webpack.base.config')
-
 const path = require('path')
+const baseWebpackConfig = require('./webpack.base.config')
 
 module.exports = merge(baseWebpackConfig, {
   mode: 'production',
@@ -21,19 +19,6 @@ module.exports = merge(baseWebpackConfig, {
       }
     }),
 
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        ie8: true,
-        warnings: false,
-        output: {
-          comments: false
-        }
-      },
-      sourceMap: false,
-      parallel: true,
-      cache: true
-    }),
-
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
@@ -42,7 +27,6 @@ module.exports = merge(baseWebpackConfig, {
       minRatio: 0.8
     }),
 
-    //清除打包目录
     new CleanWebpackPlugin(['dist'],{
        root: path.resolve(__dirname, '../'),
     }),

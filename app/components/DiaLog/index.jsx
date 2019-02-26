@@ -13,9 +13,11 @@ class DiaLog extends Component {
   onOpen() {
     this.setState({ visible: true });
   }
+
   onClose() {
     this.setState({ visible: false });
   }
+
   async btnOnClick(func) {
     await func();
     this.onClose();
