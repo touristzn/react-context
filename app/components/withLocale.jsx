@@ -1,5 +1,6 @@
 import React from 'react';
 import { IntlProvider, addLocaleData } from 'react-intl';
+import intl from 'intl';
 import en from 'react-intl/locale-data/en';
 import zh from 'react-intl/locale-data/zh';
 import zhCN from '../static/i18n/zh-CN';

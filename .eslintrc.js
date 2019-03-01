@@ -14,15 +14,10 @@ module.exports = {
     'jest',
   ],
   extends: [
-    'eslint:recommended',
     'airbnb',
     'prettier',
     'prettier/react',
     'prettier/standard',
-    'plugin:jest/recommended',
-    'plugin:import/errors',
-    'plugin:import/warnings',
-    'plugin:react/recommended',
   ],
   env: {
     browser: false,

@@ -1,5 +1,5 @@
 import React from 'react';
-import AppContext from '../static/util/AppContext';
+import { AppContext } from '../static/util/AppContext';
 
 const withContext = (Component) => {
   return (props) => (
