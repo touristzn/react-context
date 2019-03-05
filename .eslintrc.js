@@ -28,7 +28,9 @@ module.exports = {
     "document": true,
     "navigator": true,
     "window":true,
-    "node":true
+    "node":true,
+    "localStorage": true,
+    API_BASEURL: true,
   },
   "settings": {
     "import/resolver": {
@@ -61,6 +63,7 @@ module.exports = {
     'arrow-body-style': 'off',
     'eqeqeq': 'warn',
     'class-methods-use-this': 'off',
+    'func-names': 'off',
     
     'react/button-has-type': 'off',
     'react/jsx-filename-extension': 'off',

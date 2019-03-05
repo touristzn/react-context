@@ -16,7 +16,7 @@ onerror(app);
 if (NODE_ENV !== 'production') {
   const webpack = require('webpack');
   const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware')
-  const webpackConfig = require('../config/webpack.dev.config');
+  const webpackConfig = require('../build/webpack.dev.config');
   const compiler = webpack(webpackConfig);
 
   Object.keys(webpackConfig.entry).forEach(function (key) {

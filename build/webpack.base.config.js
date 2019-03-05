@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
+const defines = require('../config/define.conf')
+
 const path = require('path')
 const glob = require('glob')
 
@@ -47,6 +49,7 @@ module.exports = {
 
       {
         test: /\.(jpe?g|png|gif|svg)(\?.*)?$/,
+        include: [resolve('app/static')],
         use: [
           {
             loader: 'url-loader',
@@ -144,6 +147,8 @@ module.exports = {
 
   plugins: [
     new es3ifyPlugin(),
+
+    new webpack.DefinePlugin(defines),
 
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contentHash:5].css',
