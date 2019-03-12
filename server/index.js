@@ -51,4 +51,4 @@ app.use(async (ctx, next) => {
 
 // 开启监听服务
 const server = app.listen(config.port);
-console.log(`=====server listen on: ${config.port}=====`);
+console.log(`Please visit: http://127.0.0.1:${config.port}`);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { FormattedMessage } from 'react-intl';
 import PriceList from '../../components/PriceList';
 import { Tabs, Tab } from '../../components/Tabs';
@@ -33,7 +34,9 @@ const items = [
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    // state和props无状态变更时，避免重复渲染dom
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     this.state = {}
   }
 
@@ -64,7 +67,7 @@ class App extends Component {
             onDeleteItem={(item) => {alert(item.id)}}
           />
           <Tabs activeIndex={0} onTabChange={() => {}}>
-            <Tab>1st item</Tab>
+            <Tab>1st item {this.state.Number}</Tab>
             <Tab>2nd item</Tab>
           </Tabs>
         
