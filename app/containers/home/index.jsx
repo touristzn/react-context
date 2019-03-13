@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+// state和props无状态变更时，避免重复渲染dom
+// 项目中用到的是es5的插件 es6使用react-addons-shallow-compare
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { FormattedMessage } from 'react-intl';
 import PriceList from '../../components/PriceList';
@@ -35,7 +37,6 @@ const items = [
 class App extends Component {
   constructor(props) {
     super(props);
-    // state和props无状态变更时，避免重复渲染dom
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     this.state = {}
   }

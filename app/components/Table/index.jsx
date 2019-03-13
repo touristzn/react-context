@@ -24,7 +24,7 @@ export const Table = (props) => {
               // 获取表格的宽度
               const w = child.props.width;
               return (
-                <col width={w}></col>
+                <col width={w}/>
               )
             })}
           </colgroup>
@@ -64,6 +64,12 @@ Table.propTypes = {
 
 export const TableColumn = ({ children }) => {
   return children
+}
+
+TableColumn.propTypes = {
+  prop: PropTypes.string,
+  width: PropTypes.string,
+  label: PropTypes.string,
 }
 
 
