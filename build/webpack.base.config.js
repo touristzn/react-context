@@ -4,6 +4,11 @@ const es3ifyPlugin = require('es3ify-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const HappyPack = require('happypack')
+const os = require('os')
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const chalk = require('chalk');
 
 const defines = require('../config/define.conf')
 
@@ -42,7 +47,7 @@ module.exports = {
       
       {
         test: /\.(js|jsx)$/,
-        loader: 'babel-loader',
+        loader: 'happypack/loader?id=happy-babel-js',
         exclude: '/node_modules/',
         include: [resolve('app')]
       },
@@ -72,7 +77,7 @@ module.exports = {
               ident: 'postcss',
               sourceMap: true,
               plugins: [
-                require('postcss-cssnext')()
+                require('postcss-preset-env')()
               ]
             }
           },
@@ -146,6 +151,16 @@ module.exports = {
   },
 
   plugins: [
+    new HappyPack({
+      id: 'happy-babel-js',
+      loaders: ['babel-loader?cacheDirectory=true'],
+      threadPool: happyThreadPool
+    }),
+    
+    new ProgressBarPlugin({
+      format: ' build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
+    }),
+
     new es3ifyPlugin(),
 
     new webpack.DefinePlugin(defines),
@@ -180,6 +195,7 @@ Object.keys(entryObj).forEach(function html(name){
       // favicon: './app/static/images/logo.png',
       minify: {
         collapseWhitespace:true,
+        removeAttributeQuotes:true,
       },
       hash: true,
       inject: true,

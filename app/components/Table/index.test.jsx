@@ -28,12 +28,14 @@ const props = {
       },
     },
   ],
-  // width: '100%',
+  width: '100%',
+  onModify: jest.fn(),
+  onCheck: jest.fn(),
 };
 
 let wrapper;
 
-describe('test Tabs and Tab Component', () => {
+describe('test Table and TableColumn Component', () => {
   beforeEach(() => {
     wrapper = shallow(
       <Table {...props}>
@@ -51,7 +53,14 @@ describe('test Tabs and Tab Component', () => {
   it('should render the component to match the snapshot', () => {
     expect(wrapper).toMatchSnapshot();
   })
-  it('should render Two TableColumn component', () => {
-    expect(wrapper.find(TableColumn)).toHaveLength(2);
+  it('should render correct tr length and td length', () => {
+    const th = wrapper.find('table thead tr th');
+    console.log(th.length)
+    console.log(wrapper.find(Table).children.length)
+    expect(wrapper.find('tr')).toHaveLength(props.data.length + 1);
   })
+  // it('Whether the TableColumn prop property has props in it', () => {
+  //   const itemProp = wrapper.find(Table).first().props();
+  //   console.log(itemProp);
+  // })
 });

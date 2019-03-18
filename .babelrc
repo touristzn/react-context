@@ -5,8 +5,7 @@
       "modules": "commonjs",
       "targets": {
         "browsers": ["> 1%", "ie > 9"]
-      },
-      "useBuiltIns": "usage"
+      }
     }]
   ],
   "plugins": [
