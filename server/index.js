@@ -1,8 +1,8 @@
-const path = require('path');
-
 const koa = require('koa');
 const onerror = require('koa-onerror');
 const bodyParser = require('koa-body');
+const path = require('path');
+const colors = require('colors');
 
 const config = require('../config/server/env.conf');
 
@@ -51,4 +51,4 @@ app.use(async (ctx, next) => {
 
 // 开启监听服务
 const server = app.listen(config.port);
-console.log(`Please visit: http://127.0.0.1:${config.port}`);
+console.log('Please visit: ', `http://127.0.0.1:${config.port}`.blue);
