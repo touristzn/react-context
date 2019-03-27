@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Tabs /> renders 1`] = `
+<ul
+  className="nav-tabs"
+>
+  <li
+    className="tabs-item"
+  >
+    <a
+      className="tab-link active"
+      onClick={[Function]}
+    >
+      <Tab>
+        1
+      </Tab>
+    </a>
+  </li>
+  <li
+    className="tabs-item"
+  >
+    <a
+      className="tab-link"
+      onClick={[Function]}
+    >
+      <Tab>
+        2
+      </Tab>
+    </a>
+  </li>
+</ul>
+`;

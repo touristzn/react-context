@@ -29,23 +29,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-            options: {
-              attrs: ['img:src'],
-              minimize: true,
-              removeComments: false,
-              collapseWhitespace: false,
-              removeAttributeQuotes: false,
-              interpolate: 'require',
-            },
-          },
-        ]
-      },
-      
-      {
         test: /\.(js|jsx)$/,
         loader: 'happypack/loader?id=happy-babel-js',
         exclude: '/node_modules/',

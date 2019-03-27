@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DiaLog /> renders 1`] = `
+<div
+  className="popup-box hide"
+>
+  <div
+    className="dialog-win"
+  >
+    <header>
+      <h1>
+        对话框
+      </h1>
+      <button
+        onClick={[Function]}
+      >
+        Close
+      </button>
+    </header>
+    <div
+      className="dialog-win_content"
+    >
+      内容...
+    </div>
+    <footer>
+      <button
+        onClick={[Function]}
+      >
+        取消
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        保存
+      </button>
+    </footer>
+  </div>
+</div>
+`;

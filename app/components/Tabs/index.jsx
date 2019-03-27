@@ -20,6 +20,7 @@ export class Tabs extends Component {
   render() {
     const { children } = this.props;
     const { activeIndex } = this.state;
+
     return (
       <ul className="nav-tabs">
         {React.Children.map(children, (child, index) => {

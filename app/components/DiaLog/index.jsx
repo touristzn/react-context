@@ -10,15 +10,15 @@ class DiaLog extends Component {
     }
   }
 
-  onOpen() {
+  onOpen = () => {
     this.setState({ visible: true });
   }
 
-  onClose() {
+  onClose = () => {
     this.setState({ visible: false });
   }
 
-  async btnOnClick(func) {
+  btnOnClick = async (func) => {
     await func();
     this.onClose();
   }
@@ -31,7 +31,7 @@ class DiaLog extends Component {
         <div className="dialog-win">
           <header>
             { title && (<h1>{ title }</h1>) }
-            <button onClick={this.onClose.bind(this)}>Close</button>
+            <button onClick={this.onClose}>Close</button>
           </header>
 
           <div className="dialog-win_content">
@@ -46,7 +46,7 @@ class DiaLog extends Component {
                     return (
                       <button
                         key={index}
-                        onClick={this.btnOnClick.bind(this, item.func)}
+                        onClick={() => {this.btnOnClick(item.func)}}
                       >
                         {item.text}
                       </button>

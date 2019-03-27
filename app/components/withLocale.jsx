@@ -11,7 +11,7 @@ addLocaleData([...en, ...zh]);
 
 const { language } = window;
 
-/* 将url中有可能获取到的lang格式化 */
+/* 将url中获取到的lang格式化 */
 const languageMap = {
   'zh-CN': 'zh-CN',
   'en-US': 'en-US',

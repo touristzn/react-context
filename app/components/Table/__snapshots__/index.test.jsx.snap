@@ -1,3 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test Table and TableColumn Component should render the component to match the snapshot 1`] = `ShallowWrapper {}`;
+exports[`<Table /> renders 1`] = `
+<div
+  className="table-list"
+>
+  <table
+    border="0"
+    cellPadding="0"
+    cellSpacing="0"
+    width="100%"
+  >
+    <colgroup>
+      <col
+        width="50"
+      />
+      <col />
+      <col
+        width="150"
+      />
+      <col />
+    </colgroup>
+    <thead>
+      <tr>
+        <th>
+          序号
+        </th>
+        <th>
+          内容
+        </th>
+        <th>
+          日期
+        </th>
+        <th />
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          1
+        </td>
+        <td>
+          去云南旅游
+        </td>
+        <td>
+          2018-08-01
+        </td>
+        <td>
+          <TableColumn>
+            <span>
+              修改
+            </span>
+            <span>
+              查看
+            </span>
+          </TableColumn>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2
+        </td>
+        <td>
+          去云南旅游
+        </td>
+        <td>
+          2018-08-01
+        </td>
+        <td>
+          <TableColumn>
+            <span>
+              修改
+            </span>
+            <span>
+              查看
+            </span>
+          </TableColumn>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
