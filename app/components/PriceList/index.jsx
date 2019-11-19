@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.less';
 
-const PriceList = ({  items, onModifyItem, onDeleteItem }) => {
+const PriceList = ({ items, onModifyItem, onDeleteItem }) => {
   return (
     <ul className="list-group">
       {

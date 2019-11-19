@@ -8,6 +8,7 @@ import { Tabs, Tab } from '../../components/Tabs';
 import { Table, TableColumn } from '../../components/Table';
 import DiaLog from '../../components/DiaLog';
 import withLocale from '../../components/withLocale';
+import Pagination from '../../components/Pagination'
 
 const items = [
   {
@@ -38,27 +39,35 @@ class App extends Component {
   constructor(props) {
     super(props);
     // this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-    this.state = {}
+    this.state = {
+      currentPage: 1,
+      pageSize: 20,
+      total: 250,
+    }
   }
 
-  show() {
+  show = () => {
     this.dom1.onOpen();
   }
 
-  a() {
+  a = () => {
     console.log('111');
   }
 
-  b() {
+  b = () => {
     console.log('2222');
   }
 
-  check() {
+  check = () => {
     this.dom2.onOpen();
   }
 
+  handleCurrentChange = (val) => {
+    this.setState({ currentPage: val });
+  }
+
   render() {
-    const { visible, isShow } = this.state;
+    const { visible, isShow, pageSize, total, currentPage } = this.state;
     return (
       <article>
         <section className="main page-home">
@@ -77,10 +86,17 @@ class App extends Component {
             <TableColumn prop="title" label="内容" />
             <TableColumn prop="date" width="150" label="日期" />
             <TableColumn>
-              <span onClick={this.show.bind(this)}>修改</span>
-              <span onClick={this.check.bind(this)}>查看</span>
+              <span onClick={this.show}>修改</span>
+              <span onClick={this.check}>查看</span>
             </TableColumn>
           </Table>
+
+          <Pagination
+            currentChange={this.handleCurrentChange}
+            currentPage={currentPage}
+            pageSize={pageSize}
+            total={total}
+          />
         
           <DiaLog
             ref={(ele) => {this.dom1 = ele;}}

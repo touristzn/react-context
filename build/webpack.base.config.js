@@ -2,21 +2,40 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const es3ifyPlugin = require('es3ify-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HappyPack = require('happypack')
-const os = require('os')
-const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const chalk = require('chalk');
+const os = require('os')
+const path = require('path')
+const glob = require('glob')
+const chalk = require('chalk')
+
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 
 const defines = require('../config/define.conf')
 
-const path = require('path')
-const glob = require('glob')
-
 const isProd = process.env.NODE_ENV === 'production'
 const publicPath = isProd ? '/h5/' : '/'
+
+/**
+ * 获取绝对路径
+ */
+function resolve(dir) {
+  return path.join(__dirname, '..', dir)
+}
+
+/**
+ * 获取entry文件夹下的页面路径
+ */
+function getEntry() {
+  let entry = {};
+  glob.sync('./app/entry/*.jsx').forEach(ele => {
+    let name = ele.split('/').pop().replace(/\.jsx?/, '');
+    entry[name] = [ele];
+  })
+  return entry;
+}
 
 module.exports = {
   entry: getEntry(),
@@ -47,6 +66,11 @@ module.exports = {
             }
           }
         ]
+      },
+
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       },
 
       {
@@ -99,7 +123,7 @@ module.exports = {
     minimizer: !isProd
     ? []
     : [
-        new UglifyJsPlugin({
+        new TerserPlugin({
           cache: true,
           parallel: true,
           sourceMap: !isProd
@@ -155,18 +179,6 @@ module.exports = {
 }
 
 /**
- * 获取entry文件夹下的页面路径
- */
-function getEntry() {
-  let entry = {};
-  glob.sync('./app/entry/*.jsx').forEach(ele => {
-    let name = ele.split('/').pop().replace(/\.jsx?/, '');
-    entry[name] = [ele];
-  })
-  return entry;
-}
-
-/**
  * 配置页面
  */
 const entryObj = getEntry();
@@ -177,8 +189,10 @@ Object.keys(entryObj).forEach(function html(name){
       template: `./app/template/${name}.ejs`,
       // favicon: './app/static/images/logo.png',
       minify: {
-        collapseWhitespace:true,
-        removeAttributeQuotes:true,
+        collapseWhitespace: true, // 删除空白符与换行符
+        removeComments: true, // 移除HTML中的注释
+        minifyJS: true, // 压缩html里的js
+        minifyCSS: true, // 压缩内联css
       },
       hash: true,
       inject: true,
@@ -187,10 +201,3 @@ Object.keys(entryObj).forEach(function html(name){
     })
   )
 })
-
-/**
- * 获取绝对路径
- */
-function resolve(dir) {
-  return path.join(__dirname, '..', dir)
-}
